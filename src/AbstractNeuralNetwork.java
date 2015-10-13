@@ -23,6 +23,7 @@ abstract public void fire();
 abstract public double[] getOutputs();
 abstract public void setInputs(double[] inputs);
 abstract public void linkNetwork();
+abstract public void train(double[][] inputs, double[][] outputs);
 
 
 public abstract void launch(double[] inputs);

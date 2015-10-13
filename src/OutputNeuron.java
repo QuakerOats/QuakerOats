@@ -24,7 +24,6 @@ public class OutputNeuron extends AbstractNeuron{
 	public Synapse[] getOutputsynapses(){
 		return null;
 	}
-
 	public void fire(){
 		 double s = 0;
 		for( int i = 0; i<= this.getInputsynapses().length-1;i++){

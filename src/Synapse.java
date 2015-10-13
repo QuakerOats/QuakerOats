@@ -4,6 +4,10 @@ private double weight;
 private double weightdiff;
 private AbstractNeuron inputneuron;
 private AbstractNeuron outputneuron;
+
+public Synapse() {
+
+}
 public double getWeight() {
 	return this.weight;
 }

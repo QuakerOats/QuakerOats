@@ -24,7 +24,7 @@ public void setBiasDiff(double biasDiff) {
 
  public void fire(){
 	 double s = 0;
-	for( int i = 0; i<= this.getInputsynapses().length-1;i++){
+	for( int i = 0; i<= this.getInputsynapses().length-1 ;i++){
 		s =s + this.getInputsynapses()[i].getWeight()*this.getInputsynapses()[i].getInputneuron().getOutput();
 	}
 	s = s - this.getBias();

@@ -38,6 +38,7 @@ public void setOutput(double output){
 public double getNeurondiff(){
 	return this.neurondiff;
 }
+
 public void setNeurondiff(double neurondiff){
 	this.neurondiff = neurondiff;
 }
