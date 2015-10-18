@@ -1,22 +1,23 @@
-
-public class InputNeuron extends AbstractNeuron{
-private double input;
-
-InputNeuron(AbstractActivationFunction activationfunction){
-	super(activationfunction);
-}
-public double getInput(){
-	return input;
-}
-public void setInput(double input){
-     this.input = input;
-}
-public Synapse[] getInputsynapses(){
-	return null;
-}
+public class InputNeuron extends Neuron{
 	
-public void fire(){
-	this.setOutput(this.getActivationfunction().apply(input));
-}
+	private double input;
+	
+	public InputNeuron(ActivationFunction activationfunction){
+		super(activationfunction);
+	}
+	public double getInput(){
+		return input;
+	}
+	public void setInput(double input){
+	     this.input = input;
+	}
+	public Synapse[] getInputsynapses(){
+		return null;
+	}
+		
+	public void activate(){
+		this.setActivation(input);
+	}
+	
 }
 

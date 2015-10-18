@@ -14,7 +14,7 @@ public class Test {
 	   InputNeuron[] inputlayer = new InputNeuron[]{i1,i2};
 	   IntermediateNeuron[][] hiddenlayers = new IntermediateNeuron[][] {{h11,h12},{h21,h22}};
 	   OutputNeuron[] outputlayer = new OutputNeuron[] {o1,o2};
-       Perceptron premiertest = new Perceptron(inputlayer,hiddenlayers,outputlayer);
+       FeedForward premiertest = new FeedForward(inputlayer,hiddenlayers,outputlayer);
        double[][] inputs = new double[][]{{0,0},{0,1},{1,0},{1,1}};
        double[][] outputs = new double[][] {{0,0},{1,0},{1,0},{1,0}};
        Synapse[] outputsynapses = new Synapse[3];
@@ -26,7 +26,7 @@ public class Test {
        premiertest.train(inputs, outputs);
        double[] you = new double[]{1,0};
        premiertest.launch(you);
-       System.out.println(o1.getOutput());
-       System.out.println(o2.getOutput());
+       System.out.println(o1.getActivation());
+       System.out.println(o2.getActivation());
 }
 }

@@ -1,36 +1,36 @@
-
 public class Synapse {
-private double weight;
-private double weightdiff;
-private AbstractNeuron inputneuron;
-private AbstractNeuron outputneuron;
-
-public Synapse() {
-
-}
-public double getWeight() {
-	return this.weight;
-}
-public void setWeight(double weight) {
-	this.weight = weight;
-}
-public double getWeightdiff() {
-	return this.weightdiff;
-}
-public void setWeightdiff(double weightdiff) {
-	this.weightdiff = weightdiff;
-}
-public AbstractNeuron getInputneuron() {
-	return this.inputneuron;
-}
-public void setInputneuron(AbstractNeuron inputneuron) {
-	this.inputneuron = inputneuron;
-}
-public AbstractNeuron getOutputneuron() {
-	return this.outputneuron;
-}
-public void setOutputneuron(AbstractNeuron outputneuron) {
-	this.outputneuron = outputneuron;
-}
+	
+	private double weight;
+	private double weightdiff;
+	private Neuron inputneuron;
+	private Neuron outputneuron;
+	
+	public Synapse() {
+		
+	}
+	public double getWeight() {
+		return this.weight;
+	}
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+	public double getWeightdiff() {
+		return this.weightdiff;
+	}
+	public void setWeightdiff(double weightdiff) {
+		this.weightdiff = weightdiff;
+	}
+	public Neuron getInputneuron() {
+		return this.inputneuron;
+	}
+	public void setInputneuron(Neuron inputneuron) {
+		this.inputneuron = inputneuron;
+	}
+	public Neuron getOutputneuron() {
+		return this.outputneuron;
+	}
+	public void setOutputneuron(Neuron outputneuron) {
+		this.outputneuron = outputneuron;
+	}
 
 }
