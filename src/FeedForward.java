@@ -1,10 +1,14 @@
 public class FeedForward extends NeuralNetwork {
 	
-	public FeedForward(InputNeuron[] inputlayer, IntermediateNeuron[][] hiddenlayers, 
-			OutputNeuron[] outputlayer) {
-		super(inputlayer, hiddenlayers, outputlayer);
+	public FeedForward(int[] constructorTab) throws InvalidNetworkConstruction{
+		super(constructorTab);
+	}
+	
+	public FeedForward(int[] constructorTab, ActivationFunction activationFunction) throws InvalidNetworkConstruction{
+		super(constructorTab, activationFunction);
 	}
 
+	
 	public double[] getOutputs() {
 		double[] outputs = new double[this.getOutputlayer().length];
 		for (int i = 0; i <= this.getOutputlayer().length - 1; i++) {
