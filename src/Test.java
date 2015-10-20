@@ -25,7 +25,7 @@ public class Test {
        premiertest.linkNetwork();
        premiertest.train(inputs, outputs);
        double[] you = new double[]{1,0};
-       premiertest.launch(you);
+       premiertest.forwardpropagation(you);
        System.out.println(o1.getActivation());
        System.out.println(o2.getActivation());
 }

@@ -48,7 +48,7 @@ public abstract class NeuralNetwork {
 			this.outputLayer = outputLayer;
 		}
 	}
-	/*If the user specifies an activation function*/
+	/*If the user specifies an activation function and the learning algorithm*/
 	public NeuralNetwork(int[] constructorTab, ActivationFunction activationFunction, LearningAlgorithm learningAlgorithm) throws InvalidNetworkConstruction{
 		if(constructorTab.length<3){
 			throw new InvalidNetworkConstruction();
@@ -121,10 +121,10 @@ public abstract class NeuralNetwork {
 
 	abstract public void linkNetwork();
 
-	abstract public void setInputs(double[] inputs);
+	abstract public void setInput(double[] input);
 	abstract public void activate();
-	public abstract void launch(double[] inputs);
-	abstract public double[] getOutputs();
+	abstract public void forwardpropagation(double[] input);
+	abstract public double[] getOutput();
 	
 	abstract public void train(double[][] inputs, double[][] outputs);
 	
