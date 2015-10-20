@@ -8,6 +8,7 @@ public abstract class NeuralNetwork {
 	private InputNeuron[] inputLayer;
 	private List<List<IntermediateNeuron>> hiddenLayers;
 	private OutputNeuron[] outputLayer;
+	private LearningAlgorithm learningAlgorithm;
 	
 	/*If the user doesn't give an activation function*/
 	public NeuralNetwork(int[] constructorTab) throws InvalidNetworkConstruction{
@@ -18,7 +19,7 @@ public abstract class NeuralNetwork {
 			this.constructorTab = constructorTab;
 			int length = constructorTab.length;
 			
-			ActivationFunction activationFunction = null;
+			ActivationFunction activationFunction = new Sigmoid();
 			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction);
 			InputNeuron inputNeuron = new InputNeuron(activationFunction);
 			OutputNeuron outputNeuron = new OutputNeuron(activationFunction);
@@ -48,11 +49,13 @@ public abstract class NeuralNetwork {
 		}
 	}
 	/*If the user specifies an activation function*/
-	public NeuralNetwork(int[] constructorTab, ActivationFunction activationFunction) throws InvalidNetworkConstruction{
+	public NeuralNetwork(int[] constructorTab, ActivationFunction activationFunction, LearningAlgorithm learningAlgorithm) throws InvalidNetworkConstruction{
 		if(constructorTab.length<3){
 			throw new InvalidNetworkConstruction();
 		}
 		else{
+			this.setActivationFunction(activationFunction);
+			this.setLearningAlgorithm(learningAlgorithm);
 			this.constructorTab = constructorTab;
 			int length = constructorTab.length;
 			
@@ -86,6 +89,20 @@ public abstract class NeuralNetwork {
 		}
 	}
 		
+	public ActivationFunction getActivationFunction() {
+		return activationFunction;
+	}
+	public void setActivationFunction(ActivationFunction activationFunction) {
+		this.activationFunction = activationFunction;
+	}
+	
+	public LearningAlgorithm getLearningAlgorithm() {
+		return learningAlgorithm;
+	}
+	public void setLearningAlgorithm(LearningAlgorithm learningAlgorithm) {
+		this.learningAlgorithm = learningAlgorithm;
+	}
+	
 	public int[] getConstructorTab() {
 		return constructorTab;
 	}
@@ -101,13 +118,17 @@ public abstract class NeuralNetwork {
 	public OutputNeuron[] getOutputlayer() {
 		return this.outputLayer;
 	}
-	
-	abstract public void fire();
-	abstract public double[] getOutputs();
-	abstract public void setInputs(double[] inputs);
+
 	abstract public void linkNetwork();
+
+	abstract public void setInputs(double[] inputs);
+	abstract public void activate();
+	public abstract void launch(double[] inputs);
+	abstract public double[] getOutputs();
+	
 	abstract public void train(double[][] inputs, double[][] outputs);
 	
-	public abstract void launch(double[] inputs);
+	
+	
 
 }
