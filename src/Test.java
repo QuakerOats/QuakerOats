@@ -1,8 +1,8 @@
 
 public class Test {
 
-	public static void main(String[] args) {
-	   Sigmoid a = new Sigmoid();
+	public static void main(String[] args) throws InvalidNetworkConstruction {
+	   /*Sigmoid a = new Sigmoid();
 	   InputNeuron i1 = new InputNeuron(a);
 	   InputNeuron i2 = new InputNeuron(a);
 	   IntermediateNeuron h11 = new IntermediateNeuron(a);
@@ -27,6 +27,16 @@ public class Test {
        double[] you = new double[]{1,0};
        premiertest.forwardpropagation(you);
        System.out.println(o1.getActivation());
-       System.out.println(o2.getActivation());
-}
+       System.out.println(o2.getActivation());*/
+		
+		int[] constructor = new int[]{2,1,1};
+		FeedForward network = new FeedForward(constructor);
+		network.linkNetwork();
+		double[][] inputs = new double[][]{{0,0},{0,1},{1,0},{1,1}};
+	    double[][] outputs = new double[][] {{0},{1},{1},{1}};
+	    System.out.println(network.getOutputlayer()[0].getActivation());
+	    network.train(inputs, outputs);
+	    System.out.println(network.getOutputlayer()[0].getActivation());
+	    
+	}
 }

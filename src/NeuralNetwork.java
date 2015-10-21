@@ -18,6 +18,7 @@ public abstract class NeuralNetwork {
 		}
 		else{
 			this.constructorTab = constructorTab;
+			this.learningAlgorithm = new BackProp(this);
 			int length = constructorTab.length;
 			/*only 1 intermediate layer for now, it's ok to give the "same" random bias, see later*/
 			double randomBias = 2*(Math.random()-0.5)*2.4/constructorTab[1];
@@ -29,12 +30,12 @@ public abstract class NeuralNetwork {
 			OutputNeuron outputNeuron = new OutputNeuron(activationFunction, randomBiasOutput);
 			
 			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
-			for(int i=1; i<=inputLayer.length-1; i++){
+			for(int i=0; i<=inputLayer.length-1; i++){
 				inputLayer[i]=inputNeuron;
 			}
 			
-			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length]];
-			for(int i=1; i<=inputLayer.length-1; i++){
+			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length-1]];
+			for(int i=0; i<=outputLayer.length-1; i++){
 				outputLayer[i]=outputNeuron;
 			}
 			
@@ -71,12 +72,12 @@ public abstract class NeuralNetwork {
 			OutputNeuron outputNeuron = new OutputNeuron(activationFunction, randomBiasOutput);
 			
 			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
-			for(int i=1; i<=inputLayer.length-1; i++){
+			for(int i=0; i<=inputLayer.length-1; i++){
 				inputLayer[i]=inputNeuron;
 			}
 			
-			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length]];
-			for(int i=1; i<=inputLayer.length-1; i++){
+			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length-1]];
+			for(int i=0; i<=outputLayer.length-1; i++){
 				outputLayer[i]=outputNeuron;
 			}
 			

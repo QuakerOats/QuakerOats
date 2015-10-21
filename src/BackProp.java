@@ -1,6 +1,16 @@
 
 public class BackProp extends LearningAlgorithm{
 
+	/*constructor*/
+	public BackProp(NeuralNetwork neuralNetwork){
+		super(neuralNetwork);
+	}
+	
+	public BackProp(NeuralNetwork neuralNetwork, double learningRate, int epochSize){
+		super(neuralNetwork, learningRate, epochSize);
+	}
+	
+	
 	public void launch(Input in) {
 		
 		
@@ -90,7 +100,7 @@ public class BackProp extends LearningAlgorithm{
 		
 	}
 
-	/*launch the training*/
+	/*launches the training*/
 	public void train(double[][] inputs, double[][] outputs){
 		
 		/*for each input, calculates the neurons's diff and synapases's weight diff*/
@@ -122,6 +132,4 @@ public class BackProp extends LearningAlgorithm{
 		}
 	}
 
-	
-	
 }
