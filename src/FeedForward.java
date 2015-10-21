@@ -166,11 +166,13 @@ public class FeedForward extends NeuralNetwork {
 		
 		// this.learningAlgorithm.calculateNeuronDiffs();
 		
-		// Calculate neurondiff for each Neuron of the Outputlayer
+		// Calculate neurondiff and biasDiff for each Neuron of the Outputlayer
 		for(int k=0; k<= this.getOutputlayer().length - 1; k++){
 			double delta = this.getOutputlayer()[k].getActivationfunction().applyDerivative(this.getOutputlayer()[k].getActivation())
 						  *(this.getOutputlayer()[k].getActivation()-output[k]);
 			this.getOutputlayer()[k].setNeurondiff(delta);
+			/*updates the weight*/
+			this.getOutputlayer()[k].setBiasDiff(this.getOutputlayer()[k].getBiasDiff() + delta);
 		}
 		//Update weightdiff between the hidden layer and the outputlayer.
 		for(int k= 0; k<=this.getHiddenlayers().get(this.getHiddenlayers().size()-1).size()-1;k++){
@@ -181,6 +183,7 @@ public class FeedForward extends NeuralNetwork {
 		    	this.getHiddenlayers().get(this.getHiddenlayers().size()-1).get(k).getOutputsynapses()[i].setWeightdiff(a+deltaweight);
 			}
 		}
+		
 		// Calculate neurondiff for each Neuron of the hiddenlayers
 		
 		/*for each layer*/
@@ -196,6 +199,8 @@ public class FeedForward extends NeuralNetwork {
 				double delta = this.getHiddenlayers().get(k).get(i).getActivationfunction().applyDerivative(this.getHiddenlayers().get(k).get(i).getActivation())
 							  *s;
 				this.getHiddenlayers().get(k).get(i).setNeurondiff(delta);
+				/*updates the weight*/
+				this.getHiddenlayers().get(k).get(i).setBiasDiff(this.getHiddenlayers().get(k).get(i).getBiasDiff() + delta);
 			}
 		}
 		//Update weightdiff between two neurons in hiddenlayers.
@@ -221,29 +226,42 @@ public class FeedForward extends NeuralNetwork {
 
 	}
 	
-	
+	/*trains the network*/
 	public void train(double[][] inputs, double[][] outputs){
+		
+		/*for each input, calculates the neurons's diff and synapases's weight diff*/
 		for(int i = 0; i<=inputs.length-1;i++){
-			this.forwardpropagation(inputs[i]);
-			this.backpropagation(outputs[i]);
+			/* this is written with methods in NeuralNetwork class, we now use the LearningAlgorithm class
+			 * 
+			 * this.forwardpropagation(inputs[i]);
+			 * this.backpropagation(outputs[i]);
+			 * */
+			this.getLearningAlgorithm().calculateActivations(inputs[i]);
+			this.getLearningAlgorithm().calculateNeuronAndWeightDiffs(inputs[i]);
 		}
+		
+		/*changes the neurons's value and the synapses's weight*/
 		for(int i= 0; i<=this.getInputlayer().length - 1; i++){
 			for (int j = 0; j<=this.getHiddenlayers().get(0).size() - 1; j++){
-			this.getInputlayer()[i].getOutputsynapses()[j].setWeight(this.getInputlayer()[i].getOutputsynapses()[j].getWeight() + this.getInputlayer()[i].getOutputsynapses()[j].getWeightdiff());
+				/*weight = weight + weight diff // input/hidden layers*/
+				this.getInputlayer()[i].getOutputsynapses()[j].setWeight(this.getInputlayer()[i].getOutputsynapses()[j].getWeight() + this.getInputlayer()[i].getOutputsynapses()[j].getWeightdiff());
 			}
 		}
 		for( int k = 0; k<= this.getHiddenlayers().size() - 2;k++){
 			for (int i = 0 ; i<=this.getHiddenlayers().get(k).size() - 1; i++){
 				for(int j = 0 ; j<=this.getHiddenlayers().get(k+1).size()-1;j++){
-				this.getHiddenlayers().get(k).get(i).getOutputsynapses()[j].setWeight(this.getHiddenlayers().get(k).get(i).getOutputsynapses()[j].getWeight() + this.getHiddenlayers().get(k).get(i).getOutputsynapses()[j].getWeightdiff());
-			}
+					/*weight = weight + weight diff // hidden layers*/
+					this.getHiddenlayers().get(k).get(i).getOutputsynapses()[j].setWeight(this.getHiddenlayers().get(k).get(i).getOutputsynapses()[j].getWeight() + this.getHiddenlayers().get(k).get(i).getOutputsynapses()[j].getWeightdiff());
+				}
 			}
 		}
 		for(int i= 0; i<=this.getHiddenlayers().get(this.getHiddenlayers().size()-1).size() - 1; i++){
 			for (int j = 0; j<=this.getOutputlayer().length - 1; j++){
+				/*weight = weight + weight diff // hidden layers/output, can be integrated in the previous case but doesn't matter for now*/
 				this.getHiddenlayers().get(this.getHiddenlayers().size()-1).get(i).getOutputsynapses()[j].setWeight(this.getHiddenlayers().get(this.getHiddenlayers().size()-1).get(i).getOutputsynapses()[j].getWeight() + this.getHiddenlayers().get(this.getHiddenlayers().size()-1).get(i).getOutputsynapses()[j].getWeightdiff());
 			}
 		}
 	}
+	
 	
 }

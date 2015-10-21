@@ -15,6 +15,7 @@ public class InputNeuron extends Neuron{
 		return null;
 	}
 		
+	/*input neurons just transmit the value, we don't apply the activation function, no bias*/
 	public void activate(){
 		this.setActivation(input);
 	}

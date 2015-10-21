@@ -12,17 +12,21 @@ public abstract class NeuralNetwork {
 	
 	/*If the user doesn't give an activation function*/
 	public NeuralNetwork(int[] constructorTab) throws InvalidNetworkConstruction{
+		/*exception if the constructor array length is too small*/
 		if(constructorTab.length<3){
 			throw new InvalidNetworkConstruction();
 		}
 		else{
 			this.constructorTab = constructorTab;
 			int length = constructorTab.length;
+			/*only 1 intermediate layer for now, it's ok to give the "same" random bias, see later*/
+			double randomBias = 2*(Math.random()-0.5)*2.4/constructorTab[1];
+			double randomBiasOutput = 2*(Math.random()-0.5)*2.4/constructorTab[length-1];
 			
 			ActivationFunction activationFunction = new Sigmoid();
-			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction);
+			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction, randomBias);
 			InputNeuron inputNeuron = new InputNeuron(activationFunction);
-			OutputNeuron outputNeuron = new OutputNeuron(activationFunction);
+			OutputNeuron outputNeuron = new OutputNeuron(activationFunction, randomBiasOutput);
 			
 			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
 			for(int i=1; i<=inputLayer.length-1; i++){
@@ -58,10 +62,13 @@ public abstract class NeuralNetwork {
 			this.setLearningAlgorithm(learningAlgorithm);
 			this.constructorTab = constructorTab;
 			int length = constructorTab.length;
+			/*only 1 intermediate layer for now, it's ok to give the "same" random bias, see later*/
+			double randomBias = 2*(Math.random()-0.5)*2.4/constructorTab[1];
+			double randomBiasOutput = 2*(Math.random()-0.5)*2.4/constructorTab[length-1];
 			
-			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction);
+			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction, randomBias);
 			InputNeuron inputNeuron = new InputNeuron(activationFunction);
-			OutputNeuron outputNeuron = new OutputNeuron(activationFunction);
+			OutputNeuron outputNeuron = new OutputNeuron(activationFunction, randomBiasOutput);
 			
 			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
 			for(int i=1; i<=inputLayer.length-1; i++){
