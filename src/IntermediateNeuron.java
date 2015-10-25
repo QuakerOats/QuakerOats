@@ -1,3 +1,4 @@
+
 public class IntermediateNeuron extends Neuron{
 	
 	private double bias;

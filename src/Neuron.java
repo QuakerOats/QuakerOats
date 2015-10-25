@@ -1,3 +1,4 @@
+
 public abstract class Neuron {
 	
 	private double activation;

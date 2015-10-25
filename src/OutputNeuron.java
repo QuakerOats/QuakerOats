@@ -1,3 +1,4 @@
+
 public class OutputNeuron extends Neuron{
 	
 	private double bias;

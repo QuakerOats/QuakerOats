@@ -6,24 +6,34 @@ public abstract class LearningAlgorithm {
 	public NeuralNetwork neuralNetwork;
 	public double learningRate;
 	public int epochSize;
+	public ArrayList<Double> trainerror;
+	public ArrayList<Double> testerror;
+	public ToCsv csv;
+	public OutputData outputdata;
 	
 	public LearningAlgorithm(NeuralNetwork neuralNetwork){
 		this.neuralNetwork=neuralNetwork;
+		this.csv = new ToCsv(this);
 	}
 	
 	public LearningAlgorithm(NeuralNetwork neuralNetwork, double learningRate, int epochSize){
 		this.neuralNetwork=neuralNetwork;
 		this.learningRate=learningRate;
 		this.epochSize=epochSize;
+		this.csv = new ToCsv(this);
 	}
-	
-	abstract public void launch(Input in);
 	
 	abstract public void calculateActivations(double[] input);
 	
 	abstract public void calculateNeuronAndWeightDiffs(double[] ouput);
-	
+	//input = one epoch
 	abstract public void train(double[][] inputs, double[][] outputs);
+	//inputs = all the epochs
+	abstract public void globaltraining(double[][] inputs, double[][] outputs);
+	
+	abstract public void train(double[][] inputsTraining, double[][] outputsTraining, double[][] inputsTest, double[][] outputsTest);
+	
+	abstract public void globaltraining(double[][] inputsTraining, double[][] outputsTraining, double[][] inputsTest, double[][] outputsTest);
 	
 	/*splits the inputs into epochs of size epochSize (attribute)*/
 	public List<double[][]> splitIntoEpochs(double[][] inputs){

@@ -25,25 +25,22 @@ public abstract class NeuralNetwork {
 			double randomBiasOutput = 2*(Math.random()-0.5)*2.4/constructorTab[length-1];
 			
 			ActivationFunction activationFunction = new Sigmoid();
-			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction, randomBias);
-			InputNeuron inputNeuron = new InputNeuron(activationFunction);
-			OutputNeuron outputNeuron = new OutputNeuron(activationFunction, randomBiasOutput);
 			
 			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
 			for(int i=0; i<=inputLayer.length-1; i++){
-				inputLayer[i]=inputNeuron;
+				inputLayer[i]=new InputNeuron(activationFunction);
 			}
 			
 			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length-1]];
 			for(int i=0; i<=outputLayer.length-1; i++){
-				outputLayer[i]=outputNeuron;
+				outputLayer[i]=new OutputNeuron(activationFunction, randomBiasOutput);
 			}
 			
 			List<List<IntermediateNeuron>> hiddenLayers = new ArrayList<List<IntermediateNeuron>>(length-2);
 			for(int i=1; i<=length-2; i++){
 				ArrayList<IntermediateNeuron> res = new ArrayList<IntermediateNeuron>();
 				for(int k=1; k<=constructorTab[i]; k++){
-					res.add(intermediateNeuron);
+					res.add(new IntermediateNeuron(activationFunction, randomBias));
 				}
 				hiddenLayers.add(res);
 			}
@@ -118,25 +115,20 @@ public abstract class NeuralNetwork {
 	public InputNeuron[] getInputlayer() {
 		return this.inputLayer;
 	}
-	
 	public List<List<IntermediateNeuron>> getHiddenlayers() {
 		return this.hiddenLayers;
 	}
-	
 	public OutputNeuron[] getOutputlayer() {
 		return this.outputLayer;
 	}
 
 	abstract public void linkNetwork();
 
-	abstract public void setInput(double[] input);
-	abstract public void activate();
-	abstract public void forwardpropagation(double[] input);
-	abstract public double[] getOutput();
+//	useless for now
+//	abstract public void setInput(double[] input);
+//	abstract public void activate();
+//	abstract public void forwardpropagation(double[] input);
+//	abstract public double[] getOutput();
+//	abstract public void train(double[][] inputs, double[][] outputs);
 	
-	abstract public void train(double[][] inputs, double[][] outputs);
-	
-	
-	
-
 }

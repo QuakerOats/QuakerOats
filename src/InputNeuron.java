@@ -1,3 +1,4 @@
+
 public class InputNeuron extends Neuron{
 	
 	private double input;
