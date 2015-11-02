@@ -5,9 +5,10 @@ public abstract class NeuralNetwork {
 
 	private int[] constructorTab;
 	private ActivationFunction activationFunction;
-	private InputNeuron[] inputLayer;
-	private List<List<IntermediateNeuron>> hiddenLayers;
-	private OutputNeuron[] outputLayer;
+//	private List<InputNeuron> inputLayer;
+	private InputLayer inputLayer;
+	private List<IntermediateLayer> hiddenLayers;
+	private OutputLayer outputLayer;
 	private LearningAlgorithm learningAlgorithm;
 	
 	/*If the user doesn't give an activation function*/
@@ -26,28 +27,28 @@ public abstract class NeuralNetwork {
 			
 			ActivationFunction activationFunction = new Sigmoid();
 			
-			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
-			for(int i=0; i<=inputLayer.length-1; i++){
-				inputLayer[i]=new InputNeuron(activationFunction);
+			List<InputNeuron> inputLayer = new ArrayList<InputNeuron>(constructorTab[0]);
+			for(int i=0; i<=inputLayer.size()-1; i++){
+				inputLayer.add(new InputNeuron(activationFunction));
 			}
 			
-			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length-1]];
-			for(int i=0; i<=outputLayer.length-1; i++){
-				outputLayer[i]=new OutputNeuron(activationFunction, randomBiasOutput);
+			List<OutputNeuron> outputLayer = new ArrayList<OutputNeuron>(constructorTab[length-1]);
+			for(int i=0; i<=outputLayer.size()-1; i++){
+				outputLayer.add(new OutputNeuron(activationFunction, randomBiasOutput));
 			}
 			
-			List<List<IntermediateNeuron>> hiddenLayers = new ArrayList<List<IntermediateNeuron>>(length-2);
+			List<IntermediateLayer> hiddenLayers = new ArrayList<IntermediateLayer>(length-2);
 			for(int i=1; i<=length-2; i++){
-				ArrayList<IntermediateNeuron> res = new ArrayList<IntermediateNeuron>();
+				IntermediateLayer res = new IntermediateLayer();
 				for(int k=1; k<=constructorTab[i]; k++){
-					res.add(new IntermediateNeuron(activationFunction, randomBias));
+					res.getLayer().add(new IntermediateNeuron(activationFunction, randomBias));
 				}
 				hiddenLayers.add(res);
 			}
 			
-			this.inputLayer = inputLayer;
+			this.inputLayer.setLayer(inputLayer);
 			this.hiddenLayers = hiddenLayers;
-			this.outputLayer = outputLayer;
+			this.outputLayer.setLayer(outputLayer);
 		}
 	}
 	/*If the user specifies an activation function and the learning algorithm*/
@@ -58,39 +59,35 @@ public abstract class NeuralNetwork {
 		else{
 			this.setActivationFunction(activationFunction);
 			this.setLearningAlgorithm(learningAlgorithm);
+			learningAlgorithm.setNeuralNetwork(this);
 			this.constructorTab = constructorTab;
 			int length = constructorTab.length;
 			/*only 1 intermediate layer for now, it's ok to give the "same" random bias, see later*/
 			double randomBias = 2*(Math.random()-0.5)*2.4/constructorTab[1];
 			double randomBiasOutput = 2*(Math.random()-0.5)*2.4/constructorTab[length-1];
 			
-			IntermediateNeuron intermediateNeuron = new IntermediateNeuron(activationFunction, randomBias);
-			InputNeuron inputNeuron = new InputNeuron(activationFunction);
-			OutputNeuron outputNeuron = new OutputNeuron(activationFunction, randomBiasOutput);
-			
-			InputNeuron[] inputLayer = new InputNeuron[constructorTab[0]];
-			for(int i=0; i<=inputLayer.length-1; i++){
-				inputLayer[i]=inputNeuron;
+			List<InputNeuron> inputLayer = new ArrayList<InputNeuron>(constructorTab[0]);
+			for(int i=0; i<=inputLayer.size()-1; i++){
+				inputLayer.add(new InputNeuron(activationFunction));
 			}
 			
-			OutputNeuron[] outputLayer = new OutputNeuron[constructorTab[length-1]];
-			for(int i=0; i<=outputLayer.length-1; i++){
-				outputLayer[i]=outputNeuron;
+			List<OutputNeuron> outputLayer = new ArrayList<OutputNeuron>(constructorTab[length-1]);
+			for(int i=0; i<=outputLayer.size()-1; i++){
+				outputLayer.add(new OutputNeuron(activationFunction, randomBiasOutput));
 			}
 			
-			
-			List<List<IntermediateNeuron>> hiddenLayers = new ArrayList<List<IntermediateNeuron>>(length-2);
+			List<IntermediateLayer> hiddenLayers = new ArrayList<IntermediateLayer>(length-2);
 			for(int i=1; i<=length-2; i++){
-				ArrayList<IntermediateNeuron> res = new ArrayList<IntermediateNeuron>();
+				IntermediateLayer res = new IntermediateLayer();
 				for(int k=1; k<=constructorTab[i]; k++){
-					res.add(intermediateNeuron);
+					res.getLayer().add(new IntermediateNeuron(activationFunction, randomBias));
 				}
 				hiddenLayers.add(res);
 			}
 			
-			this.inputLayer = inputLayer;
+			this.inputLayer.setLayer(inputLayer);
 			this.hiddenLayers = hiddenLayers;
-			this.outputLayer = outputLayer;
+			this.outputLayer.setLayer(outputLayer);
 		}
 	}
 		
@@ -112,23 +109,36 @@ public abstract class NeuralNetwork {
 		return constructorTab;
 	}
 	
-	public InputNeuron[] getInputlayer() {
+	public InputLayer getInputlayer() {
 		return this.inputLayer;
 	}
-	public List<List<IntermediateNeuron>> getHiddenlayers() {
+	
+	public List<IntermediateLayer> getHiddenlayers() {
 		return this.hiddenLayers;
 	}
-	public OutputNeuron[] getOutputlayer() {
+	
+	public OutputLayer getOutputlayer() {
 		return this.outputLayer;
 	}
 
+	/*returns the nbLayer th layer*/
+	public List<?> getLayer(int nbLayer) {
+		if(nbLayer==0){return this.inputLayer.getLayer();}
+		if(nbLayer==this.constructorTab.length-1){return this.outputLayer.getLayer();}
+		else{return this.hiddenLayers.get(nbLayer-1).getLayer();}
+	}
+	/*or List<?> with .getLayer in here*/
+	
 	abstract public void linkNetwork();
 
-//	useless for now
-//	abstract public void setInput(double[] input);
-//	abstract public void activate();
-//	abstract public void forwardpropagation(double[] input);
-//	abstract public double[] getOutput();
-//	abstract public void train(double[][] inputs, double[][] outputs);
+	abstract public void setInput(double[] input);
+	abstract public void activate();
+	abstract public void forwardpropagation(double[] input);
+	abstract public double[] getOutput();
 	
+	abstract public void train(double[][] inputs, double[][] outputs);
+	
+	
+	
+
 }

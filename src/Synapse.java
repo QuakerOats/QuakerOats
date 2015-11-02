@@ -6,8 +6,12 @@ public class Synapse {
 	private Neuron inputneuron;
 	private Neuron outputneuron;
 	
-	public Synapse() {
-		
+	public Synapse(Neuron inputneuron,Neuron outputneuron) {
+		this.inputneuron = inputneuron;
+		this.outputneuron = outputneuron;
+	}
+	public Synapse(Object object, Object object2) {
+		// TODO Auto-generated constructor stub
 	}
 	public double getWeight() {
 		return this.weight;

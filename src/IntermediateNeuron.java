@@ -27,9 +27,9 @@ public class IntermediateNeuron extends Neuron{
 	
 	public void activate(){
 		double s = 0;
-		for(int i = 0; i <= this.getInputsynapses().length-1; i++){
-			s += this.getInputsynapses()[i].getWeight()
-				*this.getInputsynapses()[i].getInputneuron().getActivation();
+		for(int i = 0; i <= this.getInputsynapses().size()-1; i++){
+			s += this.getInputsynapses().get(i).getWeight()
+				*this.getInputsynapses().get(i).getInputneuron().getActivation();
 		}
 		s += this.getBias();
 		this.setActivation(this.getActivationfunction().apply(s));

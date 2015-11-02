@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class InputNeuron extends Neuron{
 	
@@ -12,13 +14,13 @@ public class InputNeuron extends Neuron{
 	public void setInput(double input){
 	     this.input = input;
 	}
-	public Synapse[] getInputsynapses(){
+	public ArrayList<Synapse> getInputsynapses(){
 		return null;
 	}
 		
 	/*input neurons just transmit the value, we don't apply the activation function, no bias*/
 	public void activate(){
-		this.setActivation(input);
+		this.setActivation(this.getActivationfunction().apply(input));
 	}
 	
 }

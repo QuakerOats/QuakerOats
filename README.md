@@ -1,2 +1,0 @@
-# QuakerOats
-Deep Learning
